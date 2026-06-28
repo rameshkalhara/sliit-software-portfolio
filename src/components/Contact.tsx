@@ -9,14 +9,47 @@ export const Contact = () => {
     email: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Message sent!",
-      description: "Thank you for reaching out. I'll get back to you soon!",
-    });
-    setFormData({ name: "", email: "", message: "" });
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "a3e3f5ba-e69c-461b-8fcb-ad1f1ff26d8a", // Replace with your Web3Forms access key
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          subject: "New Contact Form Submission from Portfolio",
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        toast({
+          title: "Message sent!",
+          description: "Thank you for reaching out. I'll get back to you soon!",
+        });
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        throw new Error("Failed to send message");
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again or email me directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -40,8 +73,8 @@ export const Contact = () => {
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Email</p>
-                    <a href="mailto:your.email@example.com" className="text-foreground hover:text-primary transition-colors">
-                      your.email@example.com
+                    <a href="mailto:dmrkalhara1007@gmail.com" className="text-foreground hover:text-primary transition-colors">
+                      dmrkalhara1007@gmail.com
                     </a>
                   </div>
                 </div>
@@ -61,7 +94,7 @@ export const Contact = () => {
                 <p className="text-sm text-muted-foreground mb-4">Connect with me</p>
                 <div className="flex gap-4">
                   <a
-                    href="https://linkedin.com"
+                    href="https://www.linkedin.com/in/ramesh-kalhara-041504314/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-3 rounded-lg bg-card border border-border hover:border-primary/50 hover:bg-primary/10 transition-all duration-300"
@@ -70,7 +103,7 @@ export const Contact = () => {
                     <Linkedin className="text-muted-foreground hover:text-primary" size={20} />
                   </a>
                   <a
-                    href="https://github.com"
+                    href="https://github.com/KalharaDMR"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-3 rounded-lg bg-card border border-border hover:border-primary/50 hover:bg-primary/10 transition-all duration-300"
@@ -82,7 +115,7 @@ export const Contact = () => {
               </div>
             </div>
             
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
                   Name
@@ -92,8 +125,8 @@ export const Contact = () => {
                   id="name"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  required
-                  className="w-full px-4 py-3 rounded-lg bg-card border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-300 text-foreground placeholder:text-muted-foreground"
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-3 rounded-lg bg-card border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-300 text-foreground placeholder:text-muted-foreground disabled:opacity-50"
                   placeholder="Your name"
                 />
               </div>
@@ -107,8 +140,8 @@ export const Contact = () => {
                   id="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  required
-                  className="w-full px-4 py-3 rounded-lg bg-card border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-300 text-foreground placeholder:text-muted-foreground"
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-3 rounded-lg bg-card border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-300 text-foreground placeholder:text-muted-foreground disabled:opacity-50"
                   placeholder="your.email@example.com"
                 />
               </div>
@@ -121,18 +154,24 @@ export const Contact = () => {
                   id="message"
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  required
+                  disabled={isSubmitting}
                   rows={5}
-                  className="w-full px-4 py-3 rounded-lg bg-card border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-300 text-foreground placeholder:text-muted-foreground resize-none"
+                  className="w-full px-4 py-3 rounded-lg bg-card border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-300 text-foreground placeholder:text-muted-foreground resize-none disabled:opacity-50"
                   placeholder="Your message..."
                 />
               </div>
               
-              <Button type="submit" variant="hero" size="lg" className="w-full">
+              <Button 
+                onClick={handleSubmit}
+                variant="hero" 
+                size="lg" 
+                className="w-full"
+                disabled={isSubmitting}
+              >
                 <Send size={20} />
-                Send Message
+                {isSubmitting ? "Sending..." : "Send Message"}
               </Button>
-            </form>
+            </div>
           </div>
         </div>
       </div>
