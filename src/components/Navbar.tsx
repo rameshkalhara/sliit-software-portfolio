@@ -31,7 +31,7 @@ export const Navbar = () => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <a href="#" className="text-xl font-bold text-gradient font-mono">
-            &lt;dev /&gt;
+            &lt;Ramesh /&gt;
           </a>
 
           {/* Desktop Navigation */}
