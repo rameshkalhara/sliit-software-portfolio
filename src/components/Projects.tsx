@@ -20,6 +20,9 @@ import biomed2 from "@/assets/projects/BioMedRAG2.png";
 import ocean1 from "@/assets/projects/OceanWatch1.png";
 import ocean2 from "@/assets/projects/OceanWatch2.jpg";
 
+import meetingAgent1 from "@/assets/projects/MeetingAIAgent1.png";
+import meetingAgent2 from "@/assets/projects/MeetingAIAgent2.png";
+
 type Project = {
   title: string;
   description: string;
@@ -84,6 +87,27 @@ const projects: Project[] = [
     live: "#",
     images: [biomed1, biomed2],
   },
+
+  {
+  title: "Agentic AI Meeting Assistant",
+  description:
+    "Developed an agentic AI application that converts raw meeting notes into structured reports using LangChain and Groq LLMs. The system automatically extracts action items, prioritizes tasks, generates executive summaries, and exports reports, reducing manual meeting processing time from 15-20 minutes to seconds.",
+  tech: [
+    "Python",
+    "LangChain",
+    "Groq API",
+    "Llama 3.1",
+    "Streamlit",
+    "Prompt Engineering",
+    "Agentic AI",
+    "LLM",
+    "Tool Calling",
+  ],
+  github:
+    "https://github.com/KalharaDMR/meeting-agent", // replace if different
+  live: "#",
+  images: [meetingAgent1, meetingAgent2],
+},
 
   {
     title: "OceanWatch Illegal Fishing Platform",

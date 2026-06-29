@@ -85,7 +85,7 @@ export const Contact = () => {
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Location</p>
-                    <p className="text-foreground">Colombo, Sri Lanka</p>
+                    <p className="text-foreground">Bandaragama, Western Province, Sri Lanka</p>
                   </div>
                 </div>
               </div>
